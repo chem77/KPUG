@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="kpug_list">
+         <item>자유게시판</item>
+         <item>한줄메모</item>
+        <item>만능문답</item>
+         <item>사용기및구매후기</item>
+    </string-array>
+</resources>

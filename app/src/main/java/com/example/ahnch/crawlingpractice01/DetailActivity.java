@@ -61,22 +61,11 @@ public class DetailActivity extends AppCompatActivity {
 
         System.out.println( sListDetailNo +"번째줄");
 
-        switch (sListDetailNo) {
-            case "0": // 자유게시판
-                htmlPageUrl = "http://www.kpug.kr/kpugfreeboard";
-                break;
-            case "1": // 한줄메모
-                htmlPageUrl = "http://www.kpug.kr/line_2";
-                break;
-            case "2": // 만능문답
-                htmlPageUrl = "http://www.kpug.kr/kpugknow";
-                break;
-            case "3": // 사용기및구매후기
-                htmlPageUrl = "http://www.kpug.kr/reviews";
-                break;
-        }
+        htmlPageUrl = "http://www.kpug.kr";
 
-        htmlPageUrl += "/2346789";
+        //htmlPageUrl += "/2346789";
+
+        htmlPageUrl +=  sListDetailNo;
 
         System.out.println( htmlPageUrl +"사이트");
 

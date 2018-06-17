@@ -31,9 +31,9 @@ public class ListActivity extends AppCompatActivity {
     private TextView textviewHtmlDocument;
     private String htmlContentInStringFormat="";
    // private ArrayList<String> kpug_list;
-   private ArrayList<ItemObject> kpug_list = new ArrayList();
+   private ArrayList<ItemObject> kpug_list = null;
 
-    private ArrayAdapter<String> kpugAdapter;
+    private ArrayAdapter<ItemObject> kpugAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +84,8 @@ public class ListActivity extends AppCompatActivity {
 
         System.out.println( htmlPageUrl +"사이트");
 
-        //kpug_list = new ArrayList<ItemObject>();
-        kpugAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, kpug_list);
+        kpug_list = new ArrayList<>();
+        kpugAdapter = new ArrayAdapter<ItemObject>(this, android.R.layout.simple_list_item_1, kpug_list);
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
@@ -124,8 +124,8 @@ public class ListActivity extends AppCompatActivity {
             Resources res = getResources();
             String[] titles = res.getStringArray(R.array.kpug_list);
 
-            String mes;
-            mes = "Select Item = " + titles[position];
+            //String mes;
+            //mes = "Select Item = " + titles[position];
 
             //System.out.println(position);
 
@@ -135,7 +135,9 @@ public class ListActivity extends AppCompatActivity {
 
             //Intent it = new Intent(MainActivity.this, ListActivity.class);
             Intent it = new Intent(context, DetailActivity.class);
-            it.putExtra("ListDetailNo", String.valueOf(position));
+            it.putExtra("ListDetailNo", String.valueOf(kpug_list.get(position).getListDetailNo()));
+
+            //String.valueOf(mList.get(position).getTitle())
             //it.putExtra("PhoneNo", data.get(position).getPhoneNo());
             //it.putExtra("Imgsrc", data.get(position).getImgId());
             startActivity(it);
@@ -165,12 +167,24 @@ public class ListActivity extends AppCompatActivity {
                 System.out.println("-------------------------------------------------------------");
                 for(Element e: titles){
 
-                    String listDetailNo = doc.select("td.title").attr("href");
+                    //String listDetailNo = doc.select("td.title").attr("href");
 
                     System.out.println("title: " + e.text());
                     String title = e.text().trim();
+
+                    String tempListDetailNo = e.getElementsByAttribute("href").attr("href");
+
+                    String [] arr = tempListDetailNo.split("\\?",2);
+
+                    String listDetailNo = arr[0];
+
+                    System.out.println("arr[]: " + arr[0]);
+                    System.out.println("listDetailNo: " + listDetailNo);
+                    System.out.println("title: " + title);
+
                    // kpug_list.add(htmlContentInStringFormat);
                     kpug_list.add(new ItemObject(title, listDetailNo));
+
                 }
 
                 //테스트2
@@ -210,12 +224,10 @@ public class ListActivity extends AppCompatActivity {
         private String title;
         private String listDetailNo;
 
-
         public ItemObject(String title, String listDetailNo){
             this.title = title;
             this.listDetailNo = listDetailNo;
         }
-
 
         public String getTitle() {
             return title;
